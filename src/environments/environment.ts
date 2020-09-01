@@ -3,7 +3,14 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  modules: [
+    { name: "@cinar/cn-common-utility", copyAssets: false, i18n: false },
+    { name: "@cinar/cn-nrf", copyAssets: true, i18n: true },
+    { name: "@cinar/cn-nef", copyAssets: true, i18n: true },
+    { name: "@cinar/cn-nssf", copyAssets: true, i18n: true },
+    { name: "@cinar/cn-network", copyAssets: true, i18n: true },
+  ]
 };
 
 /*

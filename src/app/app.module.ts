@@ -13,7 +13,7 @@ import { ConfigActions } from "./ThemeOptions/store/config.actions";
 import { LoadingBarRouterModule } from "@ngx-loading-bar/router";
 
 import { CommonModule } from "@angular/common";
-import { HttpClientModule } from "@angular/common/http";
+import { HttpClientModule, HttpClient } from "@angular/common/http";
 
 // BOOTSTRAP COMPONENTS
 
@@ -109,6 +109,41 @@ import { PieChartComponent } from "./DemoPages/Charts/chartjs/examples/pie-chart
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true,
 };
+
+// Cinar
+import {
+  SharedModule,
+  MyMissingTranslationHandler,
+  MAT_LABEL_GLOBAL_OPTIONS,
+  ErrorStateMatcher,
+  ShowOnDirtyErrorStateMatcher,
+  TranslateModule,
+  TranslateLoader,
+  MissingTranslationHandler,
+  MultiTranslateHttpLoader,
+} from "@cinar/gui-shared";
+
+import { MainModule } from "@cinar/cn-main";
+
+import { CinarCommonUtilityModule } from "@cinar/cn-common-utility";
+import { environment } from "src/environments/environment";
+
+// AoT requires an exported function for factories
+export function HttpLoaderFactory(http: HttpClient) {
+  const dizi = environment.modules.map((m) =>
+    m.i18n
+      ? {
+          prefix: `./assets/${m.name.replace("@cinar/cn-", "")}/i18n/`,
+          suffix: `${m.name.replace("@cinar/cn", "").toUpperCase()}.json`,
+        }
+      : null
+  );
+
+  return new MultiTranslateHttpLoader(http, [
+    { prefix: "./assets/main/i18n/", suffix: ".json" },
+    ...dizi.filter((f) => f != null),
+  ]);
+}
 
 @NgModule({
   declarations: [
@@ -215,6 +250,24 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     // Charts
 
     ChartsModule,
+
+    // Cinar
+
+    MainModule,
+    CinarCommonUtilityModule,
+    SharedModule,
+
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient],
+      },
+      missingTranslationHandler: {
+        provide: MissingTranslationHandler,
+        useClass: MyMissingTranslationHandler,
+      },
+    }),
   ],
   providers: [
     {
@@ -224,6 +277,9 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
       // DEFAULT_DROPZONE_CONFIG,
     },
     ConfigActions,
+    // Cinar
+    { provide: MAT_LABEL_GLOBAL_OPTIONS, useValue: { float: "always" } },
+    { provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher }
   ],
   bootstrap: [AppComponent],
 })

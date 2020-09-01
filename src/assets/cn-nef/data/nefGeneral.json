@@ -1,0 +1,44 @@
+[
+    {
+      "name": "SSLCertificateFile",
+      "value": "",
+      "type": "String",
+      "description": "NEF SSL Certificate File",
+      "isEditable": true
+    },
+    {
+      "name": "SSLCertificateKeyFile",
+      "value": "",
+      "type": "String",
+      "description": "NEF SSL Certificate Key File",
+      "isEditable": true
+    },
+    {
+      "name": "TLSSecure",
+      "value": "",
+      "type": "Boolean",
+      "description": "NEF TLS Secure description",
+      "isEditable": false
+    },
+    {
+      "name": "Authorize",
+      "value": "",
+      "type": "Boolean",
+      "description": "NEF Authorize description",
+      "isEditable": true
+    },
+    {
+      "name": "MutualAuthenticate",
+      "value": "",
+      "type": "Boolean",
+      "description": "NEF Mutual Authenticate description",
+      "isEditable": true
+    },
+    {
+      "name": "NumberofIOServiceThreads",
+      "value": "",
+      "type": "Integer",
+      "description": "NEF Number of IO Service Threads description",
+      "isEditable": true
+    }
+  ]
